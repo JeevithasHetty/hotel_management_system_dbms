@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Guest Form</title>
+</head>
+<body>
+  <h1>Add Guest</h1>
+  <form id="guestForm">
+    <label>Name: <input type="text" name="name" required /></label><br><br>
+    <label>Email: <input type="email" name="email" required /></label><br><br>
+    <label>Phone: <input type="text" name="phone" required /></label><br><br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    document.getElementById('guestForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      const data = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+      };
+
+      try {
+        const response = await fetch('/api/guests', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        alert('Guest added with ID: ' + result.id);
+        this.reset();
+      } catch (err) {
+        console.error('Error:', err);
+        alert('Failed to add guest. Check the console.');
+      }
+    });
+  </script>
+</body>
+</html>

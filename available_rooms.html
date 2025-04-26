@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Available Rooms</title>
+</head>
+<body>
+  <h2>Available Rooms</h2>
+  <p id="roomCount">Loading...</p>
+
+  <script>
+    fetch('http://localhost:3000/api/rooms/available')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('roomCount').innerText = `Number of available rooms: ${data.available_rooms}`;
+      })
+      .catch(err => {
+        console.error('Error:', err);
+        document.getElementById('roomCount').innerText = 'Error loading data';
+      });
+  </script>
+</body>
+</html>
